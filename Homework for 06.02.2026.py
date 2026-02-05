@@ -13,11 +13,12 @@ import math
 
 class Triangle:
     def __init__(self, a, b, c):
+        if a + b <= c or a + c <= b or c + b <= a:
+            raise ValueError("We can not build triangle with these sides")
         self.a = a
         self.b = b
         self.c = c
-        if a + b <= c or a + c <= b or c + b <= a:
-            print(f'We can not build triangle with this parameters: {self.a}, {self.b}, {self.c}.')
+
 
     def sides_of_triangles(self):
         print(f'Side A - {self.a}\n' 
@@ -71,10 +72,8 @@ class Triangle:
         area = (half_perimeter * (half_perimeter - self.a) * (half_perimeter - self.b) * (half_perimeter - self.c)) ** (1/2)
         print(f'Circumradius of triangle is: {round((self.a * self.b * self.c) / (4 * area), 2)}')
 
-
-    
         
-p1 = Triangle(5, 6, 7)
+p1 = Triangle(5, 3, 1)
 p1.sides_of_triangles()
 p1.perimeter()
 p1.area()
