@@ -97,53 +97,53 @@ class BankUser:
     count = 0
 
     def valid_pin(self):
-        pin = input("Please write your pin code: ")
+        pin = input("\033[92mPlease write your pin code: \033[0m")
         while BankUser.count < 2:
             if self.__pin_code == pin:
                 BankUser.count = 0
                 return True
             else:
-                pin = input("Please input valid code: ")
+                pin = input("\033[93mPlease input valid code: \033[0m")
                 BankUser.count += 1
         return False
 
 
-    def ret_name_surname(self):
-        print(self._name, self._surname)
+    def get_name_surname(self):
+        print(f'\033[94m{self._name} {self._surname}\033[0m')
         
-    def ret_carnum_money(self):
+    def get_carnum_money(self):
         if BankUser.count != 2:
             if self.valid_pin():
-                print("Card number is: ", self.__card_num)
-                print("Money on card: ", self.__money_on_card)
+                print(f'\033[96mCard number is: {self.__card_num}\033[0m')
+                print(f'\033[96mMoney on card: {self.__money_on_card}\033[m')
             else:
-                print("Your card is Blocked!! Apply bank to unblock your card.")
+                print("\033[91mYour card is Blocked!! Apply bank to unblock your card.\033[0m")
         else:
-            print("Your card is Blocked!! Apply bank to unblock your card.")
+            print("\033[91mYour card is Blocked!! Apply bank to unblock your card.\033[0m")
         
-    def add_money(self):
+    def cash_in(self):
         if BankUser.count != 2:
             if self.valid_pin():
-                cashin_size = int(input("Now cash in money\n"))
+                cashin_size = int(input("\033[92mNow cash in money\n\033[0m"))
                 self.__money_on_card += cashin_size
-                print("Money on card:", self.__money_on_card)
+                print(f'\033[96mMoney on card: {self.__money_on_card}\033[m')
             else:
-                print("Your card is Blocked!! Apply bank to unblock your card.")
+                print("\033[91mYour card is Blocked!! Apply bank to unblock your card.\033[0m")
         else:
-            print("Your card is Blocked!! Apply bank to unblock your card.")
+            print("\033[91mYour card is Blocked!! Apply bank to unblock your card.\033[0m")
 
 
     def cash_out(self):
         if BankUser.count != 2:    
             if self.valid_pin():
-                cashout_size = int(input("Now cash out money\n"))
+                cashout_size = int(input("\033[92mNow cash out money\n\033[0m"))
                 if self.__money_on_card - cashout_size >= 0:
                     self.__money_on_card -= cashout_size
-                    print("Money on card:", self.__money_on_card)
+                    print(f'\033[96mMoney on card: {self.__money_on_card}\033[m')
             else:
-                print("Your card is Blocked!! Apply bank to unblock your card.")
+                print("\033[91mYour card is Blocked!! Apply bank to unblock your card.\033[0m")
         else:
-            print("Your card is Blocked!! Apply bank to unblock your card.")
+            print("\033[91mYour card is Blocked!! Apply bank to unblock your card.\033[0m")
 
     def unblock_card(self):
         email_address = "lyovasargsyan2008@gmail.com"
@@ -161,32 +161,60 @@ class BankUser:
             with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
                 smtp.login(email_address, email_password)
                 smtp.send_message(msg)
-            print("Email sent successfully!")
+            print("\033[95mEmail sent successfully!\033[0m")
         except Exception as e:
-            print(f"Error: {e}")
+            print(f"\033[91mError: {e}\033[0m")
 
-        ver_code = int(input("Please input code sent to your Email"))
+        ver_code = int(input("\033[93mPlease input code sent to your Email\033[0m "))
         while True:
             if ver_code == verification_code:
                 BankUser.count = 0
-                print("Your card is unblocked:):)")
+                print("\033[92mYour card is unblocked:):)\033[0m")
                 return 0
             else:
-                ver_code = int(input("Please input right code sent to your Email\n"))
+                ver_code = int(input("\033[92mPlease input right code sent to your Email\n \033[0m"))
+
+    
+    def function_chooser(self):
+        my_function = input("\033[92mNow you can \033[95mcash in, cash out, get card number and money size on card, get name and surname, card status.\033[0m \033[92m\nWrite the name function you want use or write END to end use the program.\n\033[0m")
+        while(True):
+            if my_function.lower() == "end":
+                print("\033[92mThank you! You chose end.\033[0m")
+                return
+            elif my_function.lower() == "cash in":
+                BankUser.cash_in(self)
+                my_function = input("\033[92mNow you can \033[95mcash in, cash out, get card number and money size on card, get name and surname, card status.\033[0m \033[92m\nWrite the name function you want use or write END to end use the program.\n\033[0m")
+            elif my_function.lower() == "cash out":
+                BankUser.cash_out(self)
+                my_function = input("\033[92mNow you can \033[95mcash in, cash out, get card number and money size on card, get name and surname, card status.\033[0m \033[92m\nWrite the name function you want use or write END to end use the program.\n\033[0m")
+            elif my_function.lower() == "get card number and money size on card":
+                BankUser.get_carnum_money(self)
+                my_function = input("\033[92mNow you can \033[95mcash in, cash out, get card number and money size on card, get name and surname, card status.\033[0m \033[92m\nWrite the name function you want use or write END to end use the program.\n\033[0mcS")
+            elif my_function.lower() == "get name and surname":
+                BankUser.get_name_surname(self)
+                my_function = input("\033[92mNow you can \033[95mcash in, cash out, get card number and money size on card, get name and surname, card status.\033[0m \033[92m\nWrite the name function you want use or write END to end use the program.\n\033[0m")
+            elif my_function.lower() == "card status":
+                if BankUser.count == 2:
+                    print("\033[91mYour card is Blocked!! Apply bank to unblock your card.\n\033[0m")
+                else:
+                    print(f"\033[92mYour card is not Bloked. You still have {(2 - BankUser.count) + 1} chance to write your pin code.\n\033[0m")
+                my_function = input("\033[92mNow you can \033[95mcash in, cash out, get card number and money size on card, get name and surname, card status.\033[0m \033[92m\nWrite the name function you want use or write END to end use the program.\n\033[0m")
+            elif my_function.lower() == "unblock card":
+                if BankUser.count == 2:
+                    BankUser.unblock_card(self)
+                    my_function = input("\033[92mNow you can \033[95mcash in, cash out, get card number and money size on card, get name and surname, card status.\033[0m \033[92m\nWrite the name function you want use or write END to end use the program.\n\033[0m")
+                else:
+                    print("\033[93mYou card is not bloked\033[0m")
+                    my_function = input("\033[92mNow you can \033[95mcash in, cash out, get card number and money size on card, get name and surname, card status.\033[0m \033[92m\nWrite the name function you want use or write END to end use the program.\n\033[0m")
+            else:
+                print("\033[97mPlease input valid function name. You can \033[95mcash in, cash out, get card number and money size on card, get name and surname, card status.\n\033[0m")
+                my_function = input("\033[92mNow you can \033[95mcash in, cash out, get card number and money size on card, get name and surname, card status.\033[0m \033[92m\nWrite the name function you want use or write END to end use the program.\n\033[0m")
 
 
                 
-        
-
-
-
-obj1 = BankUser("Lyova", "Sargsyan", 17, "karensargsyan74@gmail.com", "4083 0900 1009 3816", 5000, "6565")
-obj1.ret_name_surname()
-obj1.ret_carnum_money()
-# obj1.add_money()
-obj1.unblock_card()
-obj1.cash_out()
-
+    
+obj1 = BankUser("Lyova", "Sargsyan", 17, "lyovasargsyan2008@gmail.com", "4083 0900 1009 3816", 5000, "6565")
+obj1.function_chooser()
 
 
 
