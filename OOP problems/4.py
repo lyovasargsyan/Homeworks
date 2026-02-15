@@ -26,7 +26,7 @@ class Parent:
     def __init__(self, name, age, list_of_kids = []):
         self.name = name
         self.age = age
-        self.list_of_kids = list_of_kids
+        self.list_of_kids = []
 
     def info(self):
         print(f'Name: {self.name}')
@@ -69,11 +69,20 @@ class Child(Parent):
 
 p1 = Parent("Vazgen", 40)
 p2 = Parent("Hripsime" , 34)
+p3 = Parent("Rudik", 55)
+p4 = Parent("Anya", 80)
 Parent.add_child(p1, p2,"Vlad", 7)
-p2.add_child(p1, p2, "Anahit" ,11)
+Parent.add_child(p1, p2, "Anahit" ,11)
+Parent.add_child(p3, p4, "Vardan", 7)
 p2.feed(3)
 p1.calm_down_kid(10)
 print()
 p1.info()
 print()
 p2.info()
+print()
+p3.info()
+print()
+p4.info()
+
+
