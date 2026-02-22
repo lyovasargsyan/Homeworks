@@ -99,6 +99,10 @@ class BlackJack:
 
     def round(self):
         dealer = self.d.deal(2)
+        global winner_score
+        global winner_name
+        winner_score = 0
+        winner_name = ''
         print("dealer cards:", dealer, "score =", self.score(dealer))
         while self.score(dealer) < 17:
             dealer.append(self.d.deal(1)[0])
@@ -122,10 +126,6 @@ class BlackJack:
                 if self.score(cards) > 21:
                     print(f'{name} lost the game, score > 21')
                     break
-        global winner_score
-        global winner_name
-        winner_score = 0
-        winner_name = ''
         tie = False
         for name, cards in player_cards.items():
             if self.score(cards) > 21:
@@ -133,7 +133,6 @@ class BlackJack:
             if winner_score < self.score(cards):
                 winner_name = name
                 winner_score = self.score(cards)
-        print(winner_name, winner_score)
         if winner_score < self.score(dealer):
             winner_name = "DEALER"
             winner_score = self.score(dealer)
@@ -161,10 +160,10 @@ class BlackJack:
     
 
 
-# g = BlackJack()
-# g.add_player("Varduhi")
-# g.add_player("Artur")
-# g.game()
+g = BlackJack()
+g.add_player("Varduhi")
+g.add_player("Artur")
+g.game()
 
 
 
